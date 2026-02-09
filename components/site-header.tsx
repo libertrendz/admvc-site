@@ -1,4 +1,4 @@
-// components/site-header.tsx
+import Image from "next/image";
 import Link from "next/link";
 import { MEMBERS_AREA_URL, SITE_NAME } from "@/lib/constants";
 
@@ -8,17 +8,27 @@ const nav = [
   { href: "/congregacoes", label: "Congregações" },
   { href: "/ministerios", label: "Ministérios" },
   { href: "/agenda", label: "Agenda" },
-  { href: "/contato", label: "Contato" },
+  { href: "/contato", label: "Contato" }
 ];
 
 export default function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-soft bg-bg/80 backdrop-blur">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-3">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-xl bg-bg2 border border-soft" />
+        <Link href="/" className="flex items-center gap-3">
+          <div className="relative h-10 w-10 overflow-hidden rounded-xl border border-soft bg-bg2">
+            <Image
+              src="/images/logo_admvc.png"
+              alt={`${SITE_NAME} — Logo`}
+              fill
+              sizes="40px"
+              className="object-contain p-1"
+              priority
+            />
+          </div>
+
           <div className="leading-tight">
-            <div className="text-sm font-semibold">{SITE_NAME}</div>
+            <div className="text-sm font-semibold text-fg">{SITE_NAME}</div>
             <div className="text-xs text-muted2">Figueira da Foz · Leiria · Barcelos</div>
           </div>
         </Link>
@@ -35,16 +45,15 @@ export default function SiteHeader() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
-          <a
-            href={MEMBERS_AREA_URL}
-            className="btn btn-primary"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            🔒 Área de Membros
-          </a>
-        </div>
+        <a
+          href={MEMBERS_AREA_URL}
+          className="btn btn-primary"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Acesso exclusivo para membros da ADMVC"
+        >
+          🔒 Área de Membros
+        </a>
       </div>
     </header>
   );
