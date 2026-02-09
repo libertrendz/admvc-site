@@ -1,9 +1,244 @@
-// app/agenda/page.ts
-export default function Page() {
+// app/agenda/page.tsx
+import Link from "next/link";
+
+type Evento = {
+  dia: string;
+  hora: string;
+  titulo: string;
+  descricao: string;
+  badge?: string;
+};
+
+const SEDE_SEMANAL: Evento[] = [
+  {
+    dia: "Quarta-feira",
+    hora: "A partir das 20:00",
+    titulo: "Quartas Proféticas",
+    descricao:
+      "Um tempo de oração, palavra e sensibilidade à direção de Deus — encontros marcados pela busca espiritual, encorajamento e edificação."
+  },
+  {
+    dia: "Quinta-feira",
+    hora: "A partir das 20:00",
+    titulo: "Escola de Líderes",
+    badge: "Exclusivo para membros",
+    descricao:
+      "Formação, discipulado e preparação de líderes — crescimento ministerial, alinhamento espiritual e fortalecimento da liderança cristã."
+  },
+  {
+    dia: "Sexta-feira",
+    hora: "A partir das 20:00",
+    titulo: "Faculdade de Teologia",
+    descricao:
+      "Ensino teológico com base bíblica sólida — aprofundamento na Palavra de Deus e preparação para o serviço cristão."
+  },
+  {
+    dia: "Sábado",
+    hora: "Horários e locais definidos por grupo",
+    titulo: "Grupos Específicos",
+    descricao:
+      "Encontros organizados por perfil com foco em comunhão, discipulado e aplicação prática da fé: Homens, Mulheres e Jovens."
+  },
+  {
+    dia: "Domingo",
+    hora: "10:00 e 17:00",
+    titulo: "Culto da Família",
+    descricao:
+      "O principal encontro da igreja — louvor, palavra, comunhão e edificação espiritual para todas as idades."
+  }
+];
+
+export default function AgendaPage() {
   return (
-    <section className="space-y-2">
-      <h1 className="text-2xl font-semibold">Em construção</h1>
-      <p className="text-muted">Conteúdo será publicado em breve.</p>
-    </section>
+    <main className="space-y-16">
+      {/* HERO */}
+      <section className="relative overflow-hidden rounded-2xl border border-soft bg-bg2 p-6 md:p-12">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full blur-3xl"
+          style={{ background: "rgba(63,107,79,0.35)" }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full blur-3xl"
+          style={{ background: "rgba(127,174,147,0.18)" }}
+        />
+
+        <div className="relative z-10 max-w-3xl space-y-4">
+          <h1 className="text-3xl md:text-5xl font-semibold text-fg">
+            Agenda <span className="text-figueira">Semanal</span>
+          </h1>
+
+          <p className="text-muted text-base md:text-lg">
+            Na ADMVC, cada encontro é uma oportunidade de crescimento espiritual, comunhão e edificação.
+            Consulte a agenda da sede e acompanhe as atualizações das congregações.
+          </p>
+
+          <div className="flex flex-wrap gap-3 pt-2">
+            <Link href="/congregacoes" className="btn btn-primary">
+              Ver congregações
+            </Link>
+            <Link href="/contato" className="btn btn-ghost">
+              Fale connosco
+            </Link>
+          </div>
+
+          <div className="pt-2 text-xs text-muted2">
+            (Agenda das congregações será adicionada assim que estiver definida.)
+          </div>
+        </div>
+      </section>
+
+      {/* SEDE */}
+      <section className="space-y-6">
+        <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h2 className="text-xl md:text-2xl font-semibold text-figueira">
+              Sede — Figueira da Foz
+            </h2>
+            <p className="text-muted">
+              Encontros regulares para toda a família, com foco na Palavra, oração, discipulado e comunhão.
+            </p>
+          </div>
+
+          <Link href="/contato" className="text-figueira underline underline-offset-4">
+            Confirmar detalhes
+          </Link>
+        </div>
+
+        {/* Tabela (desktop) */}
+        <div className="hidden md:block overflow-hidden rounded-2xl border border-soft bg-bg2">
+          <table className="w-full text-sm">
+            <thead className="bg-bg">
+              <tr>
+                <th className="px-5 py-4 text-left text-muted">Dia</th>
+                <th className="px-5 py-4 text-left text-muted">Horário</th>
+                <th className="px-5 py-4 text-left text-muted">Encontro</th>
+                <th className="px-5 py-4 text-left text-muted">Descrição</th>
+              </tr>
+            </thead>
+            <tbody>
+              {SEDE_SEMANAL.map((e, idx) => (
+                <tr key={`${e.dia}-${idx}`} className="border-t border-soft">
+                  <td className="px-5 py-4 text-fg font-medium">{e.dia}</td>
+                  <td className="px-5 py-4 text-fg">{e.hora}</td>
+                  <td className="px-5 py-4 text-fg">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="h-2 w-2 rounded-full"
+                        style={{ backgroundColor: "var(--g-figueira)" }}
+                      />
+                      <span className="font-semibold">{e.titulo}</span>
+                      {e.badge ? (
+                        <span className="ml-2 rounded-full border border-soft bg-bg px-2 py-0.5 text-xs text-muted">
+                          {e.badge}
+                        </span>
+                      ) : null}
+                    </div>
+                  </td>
+                  <td className="px-5 py-4 text-muted">{e.descricao}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Cards (mobile) */}
+        <div className="grid gap-4 md:hidden">
+          {SEDE_SEMANAL.map((e, idx) => (
+            <div key={`${e.dia}-${idx}`} className="rounded-2xl border border-soft bg-bg2 p-5">
+              <div className="flex items-start justify-between gap-3">
+                <div className="space-y-1">
+                  <div className="text-xs text-muted2">{e.dia}</div>
+                  <div className="text-base font-semibold text-fg flex items-center gap-2">
+                    <span
+                      className="h-2 w-2 rounded-full"
+                      style={{ backgroundColor: "var(--g-figueira)" }}
+                    />
+                    {e.titulo}
+                  </div>
+                  <div className="text-sm text-fg">{e.hora}</div>
+                </div>
+
+                {e.badge ? (
+                  <span className="shrink-0 rounded-full border border-soft bg-bg px-2 py-0.5 text-xs text-muted">
+                    {e.badge}
+                  </span>
+                ) : null}
+              </div>
+
+              <p className="mt-3 text-sm text-muted">{e.descricao}</p>
+
+              {e.titulo === "Grupos Específicos" ? (
+                <div className="mt-3 rounded-xl border border-soft bg-bg p-3 text-sm text-muted">
+                  <div className="font-semibold text-fg mb-1">Grupos:</div>
+                  <ul className="space-y-1">
+                    <li>• Homens</li>
+                    <li>• Mulheres</li>
+                    <li>• Jovens</li>
+                  </ul>
+                </div>
+              ) : null}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* CONGREGAÇÕES (placeholders) */}
+      <section className="grid gap-4 md:grid-cols-2">
+        <PlaceholderAgendaCard
+          title="Congregação — Leiria"
+          desc="A agenda semanal será publicada assim que estiver definida."
+        />
+        <PlaceholderAgendaCard
+          title="Congregação — Barcelos"
+          desc="A agenda semanal será publicada assim que estiver definida."
+        />
+      </section>
+
+      {/* CTA FINAL */}
+      <section className="rounded-2xl border border-soft bg-bg2 p-6 md:p-10 space-y-4">
+        <h3 className="text-lg md:text-xl font-semibold text-fg">
+          Vai visitar-nos pela primeira vez?
+        </h3>
+        <p className="text-muted">
+          Você é bem-vindo. Se quiser, entre em contacto antes e ajudamos a orientar o melhor dia,
+          horário e congregação para a sua visita.
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <Link href="/contato" className="btn btn-primary">
+            Contacto
+          </Link>
+          <Link href="/sobre" className="btn btn-ghost">
+            Conheça a ADMVC
+          </Link>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+function PlaceholderAgendaCard({ title, desc }: { title: string; desc: string }) {
+  return (
+    <div className="relative overflow-hidden rounded-2xl border border-soft bg-bg2 p-6">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-16 -right-16 h-48 w-48 rounded-full blur-3xl"
+        style={{ background: "rgba(127,174,147,0.14)" }}
+      />
+      <div className="relative z-10 space-y-2">
+        <div className="inline-flex items-center gap-2 rounded-full border border-soft bg-bg px-3 py-1 text-xs text-muted">
+          <span className="h-2 w-2 rounded-full" style={{ backgroundColor: "var(--g-soft)" }} />
+          Em breve
+        </div>
+        <h3 className="text-lg font-semibold text-fg">{title}</h3>
+        <p className="text-sm text-muted">{desc}</p>
+        <div className="pt-3">
+          <Link href="/contato" className="text-figueira underline underline-offset-4">
+            Fale connosco
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }
