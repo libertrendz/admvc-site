@@ -21,7 +21,7 @@ export default function SiteHeader() {
               src="/images/logo_admvc.png"
               alt={`${SITE_NAME} — Logo`}
               fill
-              sizes="40px"
+              sizes="80px"
               className="object-contain p-1"
               priority
             />
