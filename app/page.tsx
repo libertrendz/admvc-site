@@ -1,64 +1,86 @@
 // app/page.tsx
+// app/page.tsx
 import Link from "next/link";
 import { MEMBERS_AREA_URL, SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
 
 export default function HomePage() {
   return (
     <main className="space-y-16">
-      {/* HERO */}
-      <section className="relative overflow-hidden rounded-2xl border border-soft bg-bg2 p-6 md:p-10">
-        {/* glow suave para dar “vida” sem virar neon */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full blur-3xl"
-          style={{ background: "rgba(63,107,79,0.35)" }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full blur-3xl"
-          style={{ background: "rgba(127,174,147,0.18)" }}
-        />
+      {/* HERO (com imagem real + overlays para legibilidade) */}
+      <section className="relative overflow-hidden rounded-2xl border border-soft bg-bg2">
+        {/* Background image */}
+        <div className="absolute inset-0">
+          <img
+            src="/images/hero_teste.png"
+            alt="Culto e comunhão na ADMVC"
+            className="h-full w-full object-cover object-center"
+          />
 
-        <div className="relative z-10 space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-soft bg-bg px-3 py-1 text-xs text-muted">
-            <span
-              className="h-2 w-2 rounded-full"
-              style={{ backgroundColor: "var(--g-figueira)" }}
-            />
-            {SITE_NAME} • Figueira da Foz · Leiria · Barcelos
-          </div>
+          {/* Overlay principal (legibilidade) */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/45 to-black/15" />
 
-          <h1 className="text-3xl md:text-5xl font-semibold leading-tight text-fg">
-            <span className="text-figueira">{SITE_TAGLINE}</span>
-          </h1>
+          {/* Toque institucional (verde figueira) */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-[rgba(63,107,79,0.35)] via-transparent to-transparent" />
 
-          <p className="max-w-2xl text-muted">
-            Um lugar de acolhimento, comunhão e crescimento espiritual, onde vivemos o amor
-            de Cristo e caminhamos juntos como corpo.
-          </p>
+          {/* Vignette suave */}
+          <div className="absolute inset-0 shadow-[inset_0_0_140px_rgba(0,0,0,0.65)]" />
+        </div>
 
-          <div className="flex flex-wrap gap-3 pt-2">
-            <Link href="/congregacoes" className="btn btn-primary">
-              Visite-nos
-            </Link>
+        {/* Content */}
+        <div className="relative z-10 p-6 md:p-12">
+          <div className="max-w-3xl space-y-4">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/35 px-3 py-1 text-xs text-white/90 backdrop-blur">
+              <span
+                className="h-2 w-2 rounded-full"
+                style={{ backgroundColor: "var(--g-figueira)" }}
+              />
+              {SITE_NAME} • Figueira da Foz · Leiria · Barcelos
+            </div>
 
-            <a
-              href={MEMBERS_AREA_URL}
-              className="btn btn-ghost"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Acesso exclusivo para membros da ADMVC"
-            >
-              🔒 Área de Membros
-            </a>
+            <h1 className="text-3xl md:text-5xl font-semibold leading-tight text-white drop-shadow-[0_2px_14px_rgba(0,0,0,0.85)]">
+              {SITE_TAGLINE.includes("uma família") ? (
+                <>
+                  Mais que uma igreja,{" "}
+                  <span className="text-figueira drop-shadow-[0_2px_14px_rgba(0,0,0,0.85)]">
+                    uma família
+                  </span>
+                </>
+              ) : (
+                <span className="text-figueira">{SITE_TAGLINE}</span>
+              )}
+            </h1>
 
-            <Link href="/permanecer" className="btn btn-ghost">
-              Permanecer
-            </Link>
-          </div>
+            <p className="max-w-2xl text-base md:text-lg text-white/90 drop-shadow-[0_1px_8px_rgba(0,0,0,0.8)]">
+              Um lugar de acolhimento, comunhão e crescimento espiritual, onde vivemos o amor
+              de Cristo e caminhamos juntos como corpo.
+            </p>
 
-          <div className="pt-4 text-xs text-muted2">
-            “Onde não há visão, o povo perece.” — Provérbios 29:18a
+            <div className="flex flex-wrap gap-3 pt-2">
+              <Link href="/congregacoes" className="btn btn-primary">
+                Visite-nos
+              </Link>
+
+              <a
+                href={MEMBERS_AREA_URL}
+                className="btn btn-ghost bg-black/35 text-white border-white/25 hover:bg-black/55"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Acesso exclusivo para membros da ADMVC"
+              >
+                🔒 Área de Membros
+              </a>
+
+              <Link
+                href="/permanecer"
+                className="btn btn-ghost bg-black/35 text-white border-white/25 hover:bg-black/55"
+              >
+                Permanecer
+              </Link>
+            </div>
+
+            <div className="pt-4 text-xs text-white/80 italic drop-shadow-[0_1px_6px_rgba(0,0,0,0.75)]">
+              “Onde não há visão, o povo perece.” — Provérbios 29:18a
+            </div>
           </div>
         </div>
       </section>
@@ -85,22 +107,10 @@ export default function HomePage() {
         </div>
 
         <div className="md:col-span-7 grid gap-4 md:grid-cols-2">
-          <FeatureCard
-            title="Acolhimento"
-            desc="Uma comunidade que recebe, cuida e caminha junto."
-          />
-          <FeatureCard
-            title="Discipulado"
-            desc="Crescimento espiritual com base na Palavra de Deus."
-          />
-          <FeatureCard
-            title="Serviço"
-            desc="Servir é parte da nossa cultura cristã e comunitária."
-          />
-          <FeatureCard
-            title="Unidade"
-            desc="Mais que uma igreja, uma família — em amor e comunhão."
-          />
+          <FeatureCard title="Acolhimento" desc="Uma comunidade que recebe, cuida e caminha junto." />
+          <FeatureCard title="Discipulado" desc="Crescimento espiritual com base na Palavra de Deus." />
+          <FeatureCard title="Serviço" desc="Servir é parte da nossa cultura cristã e comunitária." />
+          <FeatureCard title="Unidade" desc="Mais que uma igreja, uma família — em amor e comunhão." />
         </div>
       </section>
 
@@ -111,9 +121,7 @@ export default function HomePage() {
             <h2 className="text-xl md:text-2xl font-semibold text-figueira">
               Nossas Congregações
             </h2>
-            <p className="text-muted">
-              Sede como principal, com congregações em Leiria e Barcelos.
-            </p>
+            <p className="text-muted">Sede como principal, com congregações em Leiria e Barcelos.</p>
           </div>
           <Link href="/congregacoes" className="text-figueira underline underline-offset-4">
             Ver horários e endereços
@@ -121,24 +129,9 @@ export default function HomePage() {
         </div>
 
         <div className="grid gap-4 md:grid-cols-3">
-          <PlaceCard
-            badge="Sede"
-            title="Figueira da Foz"
-            desc="Cultos e encontros semanais"
-            accent="figueira"
-          />
-          <PlaceCard
-            badge="Congregação"
-            title="Leiria"
-            desc="Uma comunidade em crescimento"
-            accent="soft"
-          />
-          <PlaceCard
-            badge="Congregação"
-            title="Barcelos"
-            desc="Caminhando juntos em fé"
-            accent="deep"
-          />
+          <PlaceCard badge="Sede" title="Figueira da Foz" desc="Cultos e encontros semanais" accent="figueira" />
+          <PlaceCard badge="Congregação" title="Leiria" desc="Uma comunidade em crescimento" accent="soft" />
+          <PlaceCard badge="Congregação" title="Barcelos" desc="Caminhando juntos em fé" accent="deep" />
         </div>
       </section>
 
@@ -169,9 +162,7 @@ export default function HomePage() {
       {/* ÂNCORA BÍBLICA */}
       <section className="rounded-2xl border border-soft bg-bg2 p-6">
         <div className="border-l-4 pl-4" style={{ borderColor: "var(--g-figueira)" }}>
-          <p className="text-lg md:text-xl italic text-fg">
-            “Onde não há visão, o povo perece.”
-          </p>
+          <p className="text-lg md:text-xl italic text-fg">“Onde não há visão, o povo perece.”</p>
           <div className="pt-1 text-sm text-muted2">Provérbios 29:18a</div>
         </div>
       </section>
@@ -303,12 +294,7 @@ function Callout({
         <p className="text-sm text-muted">{desc}</p>
 
         {external ? (
-          <a
-            href={ctaHref}
-            className="btn btn-primary"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href={ctaHref} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
             {ctaLabel}
           </a>
         ) : (
