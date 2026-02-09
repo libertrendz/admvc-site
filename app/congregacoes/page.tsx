@@ -35,8 +35,9 @@ const CONGREGACOES: Congregacao[] = [
     ],
     endereco: "R. António Pestana Rato 77, 3080-014 Figueira da Foz",
     contato: "A confirmar",
+    // Coordenadas fixas (pin preciso)
     mapaUrl:
-      "https://www.google.com/maps/place/Igreja+Evang%C3%A9lica+Assembleia+de+Deus+Minist%C3%A9rio+Vis%C3%A3o+de+Conquista+-+ADMVC/@40.1556145,-8.8431124,17z"
+      "https://www.google.com/maps?q=40.15750081315044,-8.834271101320267&z=17"
   },
   {
     badge: "Congregação",
@@ -55,8 +56,9 @@ const CONGREGACOES: Congregacao[] = [
     ],
     endereco: "Estr. da Mata 93, 2415-557 Leiria",
     contato: "A confirmar",
+    // Coordenadas fixas (pin preciso)
     mapaUrl:
-      "https://www.google.com/maps/place/ADMVC+Leiria/@39.7631426,-8.8154686,17z"
+      "https://www.google.com/maps?q=39.763237442779946,-8.81231432239029&z=17"
   },
   {
     badge: "Congregação",
@@ -75,8 +77,9 @@ const CONGREGACOES: Congregacao[] = [
     ],
     endereco: "R. Elias Garcia 105, 4750-144 Barcelos",
     contato: "A confirmar",
+    // Coordenadas fixas (pin preciso)
     mapaUrl:
-      "https://www.google.com/maps/place/ADMVC+Barcelos+Assembleia+de+Deus+Vis%C3%A3o+de+Conquista/@41.5364583,-8.6143917,17z"
+      "https://www.google.com/maps?q=41.53651048754863,-8.611570039817348&z=17"
   }
 ];
 
