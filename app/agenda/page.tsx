@@ -83,6 +83,10 @@ export default function AgendaPage() {
               Fale connosco
             </Link>
           </div>
+
+          <div className="pt-2 text-xs text-muted2">
+            (Agenda das congregações será adicionada assim que estiver definida.)
+          </div>
         </div>
       </section>
 
@@ -92,12 +96,10 @@ export default function AgendaPage() {
           <h2 className="text-xl md:text-2xl font-semibold text-figueira">
             Sede — Figueira da Foz
           </h2>
-          <p className="text-muted">
-            Agenda semanal da sede da ADMVC.
-          </p>
+          <p className="text-muted">Agenda semanal da sede da ADMVC.</p>
         </div>
 
-        {/* Tabela desktop */}
+        {/* Tabela (desktop) */}
         <div className="hidden md:block overflow-hidden rounded-2xl border border-soft bg-bg2">
           <table className="w-full text-sm">
             <thead className="bg-bg">
@@ -105,15 +107,9 @@ export default function AgendaPage() {
                 <th className="w-40 px-6 py-4 text-left text-muted whitespace-nowrap">
                   Dia
                 </th>
-                <th className="px-6 py-4 text-left text-muted">
-                  Horário
-                </th>
-                <th className="px-6 py-4 text-left text-muted">
-                  Encontro
-                </th>
-                <th className="px-10 py-4 text-left text-muted">
-                  Descrição
-                </th>
+                <th className="px-6 py-4 text-left text-muted">Horário</th>
+                <th className="px-6 py-4 text-left text-muted">Encontro</th>
+                <th className="px-10 py-4 text-left text-muted">Descrição</th>
               </tr>
             </thead>
             <tbody>
@@ -122,9 +118,7 @@ export default function AgendaPage() {
                   <td className="px-6 py-5 font-medium text-fg whitespace-nowrap">
                     {e.dia}
                   </td>
-                  <td className="px-6 py-5 text-fg">
-                    {e.hora}
-                  </td>
+                  <td className="px-6 py-5 text-fg">{e.hora}</td>
                   <td className="px-6 py-5 text-fg">
                     <div className="flex items-center gap-2">
                       <span
@@ -148,7 +142,59 @@ export default function AgendaPage() {
           </table>
         </div>
 
-        {/* Mobile cards permanecem iguais */}
+        {/* Cards (mobile) */}
+        <div className="grid gap-4 md:hidden">
+          {SEDE_SEMANAL.map((e, idx) => (
+            <div key={`${e.dia}-${idx}`} className="rounded-2xl border border-soft bg-bg2 p-5">
+              <div className="flex items-start justify-between gap-3">
+                <div className="space-y-1">
+                  <div className="text-xs text-muted2">{e.dia}</div>
+
+                  <div className="text-base font-semibold text-fg flex items-center gap-2">
+                    <span
+                      className="h-2 w-2 rounded-full"
+                      style={{ backgroundColor: "var(--g-figueira)" }}
+                    />
+                    {e.titulo}
+                  </div>
+
+                  <div className="text-sm text-fg">{e.hora}</div>
+                </div>
+
+                {e.badge ? (
+                  <span className="shrink-0 rounded-full border border-soft bg-bg px-2 py-0.5 text-xs text-muted">
+                    {e.badge}
+                  </span>
+                ) : null}
+              </div>
+
+              <p className="mt-3 text-sm text-muted leading-relaxed">{e.descricao}</p>
+
+              {e.titulo === "Reuniões de Grupos Específicos" ? (
+                <div className="mt-3 rounded-xl border border-soft bg-bg p-3 text-sm text-muted">
+                  <div className="font-semibold text-fg mb-1">Grupos:</div>
+                  <ul className="space-y-1">
+                    <li>• Homens</li>
+                    <li>• Mulheres</li>
+                    <li>• Jovens</li>
+                  </ul>
+                </div>
+              ) : null}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* CONGREGAÇÕES (placeholders) */}
+      <section className="grid gap-4 md:grid-cols-2">
+        <PlaceholderAgendaCard
+          title="Congregação — Leiria"
+          desc="A agenda semanal será publicada assim que estiver definida."
+        />
+        <PlaceholderAgendaCard
+          title="Congregação — Barcelos"
+          desc="A agenda semanal será publicada assim que estiver definida."
+        />
       </section>
 
       {/* CTA FINAL */}
@@ -170,5 +216,30 @@ export default function AgendaPage() {
         </div>
       </section>
     </main>
+  );
+}
+
+function PlaceholderAgendaCard({ title, desc }: { title: string; desc: string }) {
+  return (
+    <div className="relative overflow-hidden rounded-2xl border border-soft bg-bg2 p-6">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-16 -right-16 h-48 w-48 rounded-full blur-3xl"
+        style={{ background: "rgba(127,174,147,0.14)" }}
+      />
+      <div className="relative z-10 space-y-2">
+        <div className="inline-flex items-center gap-2 rounded-full border border-soft bg-bg px-3 py-1 text-xs text-muted">
+          <span className="h-2 w-2 rounded-full" style={{ backgroundColor: "var(--g-soft)" }} />
+          Em breve
+        </div>
+        <h3 className="text-lg font-semibold text-fg">{title}</h3>
+        <p className="text-sm text-muted">{desc}</p>
+        <div className="pt-3">
+          <Link href="/contato" className="text-figueira underline underline-offset-4">
+            Fale connosco
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }
