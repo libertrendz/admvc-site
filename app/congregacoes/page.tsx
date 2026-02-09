@@ -8,9 +8,9 @@ type Congregacao = {
   descricao: string;
   destaques: string[];
   horarios: { dia: string; hora: string; nome: string }[];
-  endereco?: string; // placeholder
-  contato?: string; // placeholder
-  mapaUrl?: string; // placeholder
+  endereco?: string;
+  contato?: string;
+  mapaUrl?: string;
 };
 
 const CONGREGACOES: Congregacao[] = [
@@ -26,13 +26,17 @@ const CONGREGACOES: Congregacao[] = [
       "Discipulado e acompanhamento pastoral"
     ],
     horarios: [
-      { dia: "Domingo", hora: "—:—", nome: "Culto" },
-      { dia: "Quarta-feira", hora: "—:—", nome: "Culto/Ensino" },
-      { dia: "Sábado", hora: "—:—", nome: "Reunião/Ministérios" }
+      { dia: "Quarta-feira", hora: "20:00", nome: "Culto | Quartas Proféticas" },
+      { dia: "Quinta-feira", hora: "20:00", nome: "Escola de Líderes (membros)" },
+      { dia: "Sexta-feira", hora: "20:00", nome: "Faculdade de Teologia" },
+      { dia: "Sábado", hora: "—", nome: "Reuniões de grupos específicos (membros)" },
+      { dia: "Domingo", hora: "10:00", nome: "Culto da Família" },
+      { dia: "Domingo", hora: "17:00", nome: "Culto da Família" }
     ],
-    endereco: "A definir (placeholder)",
-    contato: "A definir (placeholder)",
-    mapaUrl: ""
+    endereco: "R. António Pestana Rato 77, 3080-014 Figueira da Foz",
+    contato: "A confirmar",
+    mapaUrl:
+      "https://www.google.com/maps/place/Igreja+Evang%C3%A9lica+Assembleia+de+Deus+Minist%C3%A9rio+Vis%C3%A3o+de+Conquista+-+ADMVC/@40.1556145,-8.8431124,17z"
   },
   {
     badge: "Congregação",
@@ -46,12 +50,13 @@ const CONGREGACOES: Congregacao[] = [
       "Vida comunitária e serviço"
     ],
     horarios: [
-      { dia: "Domingo", hora: "—:—", nome: "Culto" },
-      { dia: "Semana", hora: "—:—", nome: "Reunião/Ensino" }
+      { dia: "Domingo", hora: "—:—", nome: "Culto (em definição)" },
+      { dia: "Semana", hora: "—:—", nome: "Reunião/Ensino (em definição)" }
     ],
-    endereco: "A definir (placeholder)",
-    contato: "A definir (placeholder)",
-    mapaUrl: ""
+    endereco: "Estr. da Mata 93, 2415-557 Leiria",
+    contato: "A confirmar",
+    mapaUrl:
+      "https://www.google.com/maps/place/ADMVC+Leiria/@39.7631426,-8.8154686,17z"
   },
   {
     badge: "Congregação",
@@ -65,12 +70,13 @@ const CONGREGACOES: Congregacao[] = [
       "Serviço e comunhão"
     ],
     horarios: [
-      { dia: "Domingo", hora: "—:—", nome: "Culto" },
-      { dia: "Semana", hora: "—:—", nome: "Reunião/Ensino" }
+      { dia: "Domingo", hora: "—:—", nome: "Culto (em definição)" },
+      { dia: "Semana", hora: "—:—", nome: "Reunião/Ensino (em definição)" }
     ],
-    endereco: "A definir (placeholder)",
-    contato: "A definir (placeholder)",
-    mapaUrl: ""
+    endereco: "R. Elias Garcia 105, 4750-144 Barcelos",
+    contato: "A confirmar",
+    mapaUrl:
+      "https://www.google.com/maps/place/ADMVC+Barcelos+Assembleia+de+Deus+Vis%C3%A3o+de+Conquista/@41.5364583,-8.6143917,17z"
   }
 ];
 
@@ -111,7 +117,7 @@ export default function CongregacoesPage() {
           </div>
 
           <div className="pt-2 text-xs text-muted2">
-            (Pode atualizar endereços e horários depois — esta página já está preparada.)
+            (Pode atualizar contactos, responsáveis e horários depois — esta página já está preparada.)
           </div>
         </div>
       </section>
@@ -131,7 +137,8 @@ export default function CongregacoesPage() {
               Horários e Endereços
             </h2>
             <p className="text-muted">
-              Atualize estes dados conforme necessário. Mantemos tudo claro e organizado por cidade.
+              Mantemos tudo claro e organizado por cidade. Pode completar contactos e responsáveis
+              quando estiverem definidos.
             </p>
           </div>
 
@@ -251,41 +258,51 @@ function CongregacaoDetail({ c }: { c: Congregacao }) {
       <div className="mt-6 grid gap-6 md:grid-cols-12">
         {/* Horários */}
         <div className="md:col-span-6">
-          <div className="text-sm font-semibold text-fg">Horários (placeholder)</div>
+          <div className="text-sm font-semibold text-fg">
+            {isSede ? "Agenda semanal (Sede)" : "Horários (em definição)"}
+          </div>
           <div className="mt-3 overflow-hidden rounded-xl border border-soft">
             <table className="w-full text-sm">
               <thead className="bg-bg">
                 <tr>
-                  <th className="px-4 py-3 text-left text-muted">Dia</th>
-                  <th className="px-4 py-3 text-left text-muted">Hora</th>
-                  <th className="px-4 py-3 text-left text-muted">Encontro</th>
+                  <th className="px-4 py-3 text-left text-muted w-40 whitespace-nowrap">
+                    Dia
+                  </th>
+                  <th className="px-4 py-3 text-left text-muted w-24 whitespace-nowrap">
+                    Hora
+                  </th>
+                  <th className="px-6 py-3 text-left text-muted">
+                    Encontro
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {c.horarios.map((h, idx) => (
                   <tr key={`${h.dia}-${idx}`} className="border-t border-soft">
-                    <td className="px-4 py-3 text-fg">{h.dia}</td>
-                    <td className="px-4 py-3 text-fg">{h.hora}</td>
-                    <td className="px-4 py-3 text-muted">{h.nome}</td>
+                    <td className="px-4 py-3 text-fg whitespace-nowrap">{h.dia}</td>
+                    <td className="px-4 py-3 text-fg whitespace-nowrap">{h.hora}</td>
+                    <td className="px-6 py-3 text-muted">{h.nome}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
           <div className="mt-2 text-xs text-muted2">
-            (Depois trocamos “—:—” pelos horários reais.)
+            {isSede
+              ? "(Agenda confirmada para a Sede.)"
+              : "(Assim que a agenda for definida, atualizamos aqui.)"}
           </div>
         </div>
 
-        {/* Endereço / Contacto */}
+        {/* Endereço / Contacto / Nota */}
         <div className="md:col-span-6 space-y-4">
           <div className="rounded-xl border border-soft bg-bg p-4">
-            <div className="text-sm font-semibold text-fg">Endereço (placeholder)</div>
+            <div className="text-sm font-semibold text-fg">Endereço</div>
             <div className="mt-2 text-sm text-muted">{c.endereco || "A definir"}</div>
           </div>
 
           <div className="rounded-xl border border-soft bg-bg p-4">
-            <div className="text-sm font-semibold text-fg">Contacto (placeholder)</div>
+            <div className="text-sm font-semibold text-fg">Contacto</div>
             <div className="mt-2 text-sm text-muted">{c.contato || "A definir"}</div>
           </div>
 
