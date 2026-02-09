@@ -16,12 +16,12 @@ export default function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-soft bg-bg/80 backdrop-blur">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-3">
         <Link href="/" className="flex items-center gap-3">
-          <div className="relative h-10 w-10 overflow-hidden rounded-xl border border-soft bg-bg2">
+          <div className="relative h-40 w-40 overflow-hidden rounded-xl border border-soft bg-bg2">
             <Image
               src="/images/logo_admvc.png"
               alt={`${SITE_NAME} — Logo`}
               fill
-              sizes="80px"
+              sizes="40px"
               className="object-contain p-1"
               priority
             />
