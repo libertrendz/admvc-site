@@ -35,9 +35,9 @@ const CONGREGACOES: Congregacao[] = [
     ],
     endereco: "R. António Pestana Rato 77, 3080-014 Figueira da Foz",
     contato: "A confirmar",
-    // Coordenadas fixas (pin preciso)
+    // Google Maps por endereço (pin consistente)
     mapaUrl:
-      "https://www.google.com/maps?q=40.15750081315044,-8.834271101320267&z=17"
+      "https://www.google.com/maps/search/?api=1&query=R.%20Ant%C3%B3nio%20Pestana%20Rato%2077%2C%203080-014%20Figueira%20da%20Foz"
   },
   {
     badge: "Congregação",
@@ -56,9 +56,8 @@ const CONGREGACOES: Congregacao[] = [
     ],
     endereco: "Estr. da Mata 93, 2415-557 Leiria",
     contato: "A confirmar",
-    // Coordenadas fixas (pin preciso)
     mapaUrl:
-      "https://www.google.com/maps?q=39.763237442779946,-8.81231432239029&z=17"
+      "https://www.google.com/maps/search/?api=1&query=Estr.%20da%20Mata%2093%2C%202415-557%20Leiria"
   },
   {
     badge: "Congregação",
@@ -77,9 +76,8 @@ const CONGREGACOES: Congregacao[] = [
     ],
     endereco: "R. Elias Garcia 105, 4750-144 Barcelos",
     contato: "A confirmar",
-    // Coordenadas fixas (pin preciso)
     mapaUrl:
-      "https://www.google.com/maps?q=41.53651048754863,-8.611570039817348&z=17"
+      "https://www.google.com/maps/search/?api=1&query=R.%20Elias%20Garcia%20105%2C%204750-144%20Barcelos"
   }
 ];
 
@@ -274,9 +272,7 @@ function CongregacaoDetail({ c }: { c: Congregacao }) {
                   <th className="px-4 py-3 text-left text-muted w-24 whitespace-nowrap">
                     Hora
                   </th>
-                  <th className="px-6 py-3 text-left text-muted">
-                    Encontro
-                  </th>
+                  <th className="px-6 py-3 text-left text-muted">Encontro</th>
                 </tr>
               </thead>
               <tbody>
