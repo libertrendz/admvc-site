@@ -20,6 +20,7 @@ export default function SiteHeader() {
       { href: "/congregacoes", label: "Congregações" },
       { href: "/ministerios", label: "Ministérios" },
       { href: "/agenda", label: "Agenda" },
+      { href: "/permanecer", label: "Permanecer" },
       { href: "/contato", label: "Contato" }
     ],
     []
