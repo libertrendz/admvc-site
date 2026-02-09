@@ -1,5 +1,4 @@
 // app/page.tsx
-// app/page.tsx
 import Link from "next/link";
 import { MEMBERS_AREA_URL, SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
 
