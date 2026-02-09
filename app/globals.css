@@ -3,61 +3,70 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Paleta (dark + figueira predominante + verdes complementares) */
+/* Tokens (dark + figueira predominante + verdes complementares) */
 :root {
-  /* Bases dark (não-esverdeadas, para não “lavar” o layout) */
-  --bg: #0b0d0c;        /* fundo principal */
-  --bg2: #121514;       /* cards/modais */
-  --border: #1e2321;    /* divisórias */
+  --bg: #0b0d0c;
+  --bg2: #121514;
+  --border: #1e2321;
 
-  /* Texto */
-  --fg: #e6efea;        /* texto principal */
-  --muted: #b8cfc4;     /* texto secundário */
-  --muted2: #7e948a;    /* texto “muted” */
+  --fg: #e6efea;
+  --muted: #b8cfc4;
+  --muted2: #7e948a;
 
-  /* Verdes (identidade) */
-  --g-figueira: #3f6b4f; /* primário */
-  --g-deep: #2e4f3a;     /* hover/active */
-  --g-soft: #7fae93;     /* acentos suaves */
-
-  /* Estados */
-  --success: #2ecc71;
-  --warning: #f1c40f;
-  --danger: #e74c3c;
+  --g-figueira: #3f6b4f;
+  --g-deep: #2e4f3a;
+  --g-soft: #7fae93;
 }
 
-html, body { height: 100%; }
+html,
+body {
+  height: 100%;
+}
 
 @layer utilities {
-  .bg-bg { background-color: var(--bg); }
-  .bg-bg2 { background-color: var(--bg2); }
-  .text-fg { color: var(--fg); }
-  .text-muted { color: var(--muted); }
-  .text-muted2 { color: var(--muted2); }
-  .border-soft { border-color: var(--border); }
+  .bg-bg {
+    background-color: var(--bg);
+  }
+  .bg-bg2 {
+    background-color: var(--bg2);
+  }
+  .text-fg {
+    color: var(--fg);
+  }
+  .text-muted {
+    color: var(--muted);
+  }
+  .text-muted2 {
+    color: var(--muted2);
+  }
+  .border-soft {
+    border-color: var(--border);
+  }
 
-  .text-figueira { color: var(--g-figueira); }
-  .bg-figueira { background-color: var(--g-figueira); }
-  .bg-figueira-hover:hover { background-color: var(--g-deep); }
-  .ring-figueira { --tw-ring-color: var(--g-soft); }
+  .text-figueira {
+    color: var(--g-figueira);
+  }
 }
 
-/* Botões base (simples e consistente) */
 .btn {
   @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition;
   @apply focus:outline-none focus:ring-2;
-  ring-color: var(--g-soft);
+  --tw-ring-color: var(--g-soft);
 }
 
 .btn-primary {
   background: var(--g-figueira);
   color: #f4fff9;
 }
-.btn-primary:hover { background: var(--g-deep); }
+.btn-primary:hover {
+  background: var(--g-deep);
+}
 
 .btn-ghost {
   @apply border;
   border-color: var(--border);
   color: var(--fg);
 }
-.btn-ghost:hover { background: rgba(63, 107, 79, 0.12); }
+.btn-ghost:hover {
+  background: rgba(63, 107, 79, 0.12);
+}
