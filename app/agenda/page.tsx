@@ -9,6 +9,8 @@ type Evento = {
   badge?: string;
 };
 
+type UnidadeKey = "sede" | "leiria" | "barcelos";
+
 const SEDE_SEMANAL: Evento[] = [
   {
     dia: "Quarta-feira",
@@ -49,7 +51,27 @@ const SEDE_SEMANAL: Evento[] = [
   }
 ];
 
-export default function AgendaPage() {
+const UNIDADES: { key: UnidadeKey; label: string; subtitle: string }[] = [
+  { key: "sede", label: "Sede", subtitle: "Figueira da Foz" },
+  { key: "leiria", label: "Congregação", subtitle: "Leiria" },
+  { key: "barcelos", label: "Congregação", subtitle: "Barcelos" }
+];
+
+export default function AgendaPage({
+  searchParams
+}: {
+  searchParams?: { unidade?: string };
+}) {
+  const unidadeParam = (searchParams?.unidade || "").toLowerCase();
+  const active: UnidadeKey =
+    unidadeParam === "leiria"
+      ? "leiria"
+      : unidadeParam === "barcelos"
+      ? "barcelos"
+      : "sede";
+
+  const activeMeta = UNIDADES.find((u) => u.key === active) || UNIDADES[0];
+
   return (
     <main className="space-y-16">
       {/* HERO */}
@@ -85,116 +107,85 @@ export default function AgendaPage() {
           </div>
 
           <div className="pt-2 text-xs text-muted2">
-            (Agenda das congregações será adicionada assim que estiver definida.)
+            (Selecione a unidade para visualizar a agenda. As congregações serão atualizadas assim
+            que estiverem definidas.)
           </div>
         </div>
       </section>
 
-      {/* SEDE */}
-      <section className="space-y-6">
-        <div>
-          <h2 className="text-xl md:text-2xl font-semibold text-figueira">
-            Sede — Figueira da Foz
-          </h2>
-          <p className="text-muted">Agenda semanal da sede da ADMVC.</p>
-        </div>
+      {/* SELECTOR (tabs desktop + select mobile) */}
+      <section className="space-y-4">
+        <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h2 className="text-xl md:text-2xl font-semibold text-figueira">
+              {activeMeta.label} — {activeMeta.subtitle}
+            </h2>
+            <p className="text-muted">
+              {active === "sede"
+                ? "Agenda semanal da sede da ADMVC."
+                : "Agenda semanal será publicada assim que estiver definida."}
+            </p>
+          </div>
 
-        {/* Tabela (desktop) */}
-        <div className="hidden md:block overflow-hidden rounded-2xl border border-soft bg-bg2">
-          <table className="w-full text-sm">
-            <thead className="bg-bg">
-              <tr>
-                <th className="w-40 px-6 py-4 text-left text-muted whitespace-nowrap">
-                  Dia
-                </th>
-                <th className="px-6 py-4 text-left text-muted">Horário</th>
-                <th className="px-6 py-4 text-left text-muted">Encontro</th>
-                <th className="px-10 py-4 text-left text-muted">Descrição</th>
-              </tr>
-            </thead>
-            <tbody>
-              {SEDE_SEMANAL.map((e, idx) => (
-                <tr key={`${e.dia}-${idx}`} className="border-t border-soft">
-                  <td className="px-6 py-5 font-medium text-fg whitespace-nowrap">
-                    {e.dia}
-                  </td>
-                  <td className="px-6 py-5 text-fg">{e.hora}</td>
-                  <td className="px-6 py-5 text-fg">
-                    <div className="flex items-center gap-2">
-                      <span
-                        className="h-2 w-2 rounded-full"
-                        style={{ backgroundColor: "var(--g-figueira)" }}
-                      />
-                      <span className="font-semibold">{e.titulo}</span>
-                      {e.badge && (
-                        <span className="ml-2 rounded-full border border-soft bg-bg px-2 py-0.5 text-xs text-muted">
-                          {e.badge}
-                        </span>
-                      )}
-                    </div>
-                  </td>
-                  <td className="px-10 py-5 text-muted leading-relaxed">
-                    {e.descricao}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Cards (mobile) */}
-        <div className="grid gap-4 md:hidden">
-          {SEDE_SEMANAL.map((e, idx) => (
-            <div key={`${e.dia}-${idx}`} className="rounded-2xl border border-soft bg-bg2 p-5">
-              <div className="flex items-start justify-between gap-3">
-                <div className="space-y-1">
-                  <div className="text-xs text-muted2">{e.dia}</div>
-
-                  <div className="text-base font-semibold text-fg flex items-center gap-2">
+          {/* Desktop tabs */}
+          <div className="hidden md:flex items-center gap-2 rounded-2xl border border-soft bg-bg2 p-2">
+            {UNIDADES.map((u) => {
+              const isActive = u.key === active;
+              return (
+                <Link
+                  key={u.key}
+                  href={`/agenda?unidade=${u.key}`}
+                  className={`rounded-xl px-4 py-2 text-sm font-semibold transition border ${
+                    isActive
+                      ? "border-soft bg-bg text-fg"
+                      : "border-transparent text-muted hover:text-fg hover:bg-bg"
+                  }`}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  <span className="inline-flex items-center gap-2">
                     <span
                       className="h-2 w-2 rounded-full"
-                      style={{ backgroundColor: "var(--g-figueira)" }}
+                      style={{
+                        backgroundColor: isActive ? "var(--g-figueira)" : "var(--g-soft)"
+                      }}
                     />
-                    {e.titulo}
-                  </div>
-
-                  <div className="text-sm text-fg">{e.hora}</div>
-                </div>
-
-                {e.badge ? (
-                  <span className="shrink-0 rounded-full border border-soft bg-bg px-2 py-0.5 text-xs text-muted">
-                    {e.badge}
+                    {u.subtitle}
                   </span>
-                ) : null}
-              </div>
+                </Link>
+              );
+            })}
+          </div>
 
-              <p className="mt-3 text-sm text-muted leading-relaxed">{e.descricao}</p>
-
-              {e.titulo === "Reuniões de Grupos Específicos" ? (
-                <div className="mt-3 rounded-xl border border-soft bg-bg p-3 text-sm text-muted">
-                  <div className="font-semibold text-fg mb-1">Grupos:</div>
-                  <ul className="space-y-1">
-                    <li>• Homens</li>
-                    <li>• Mulheres</li>
-                    <li>• Jovens</li>
-                  </ul>
-                </div>
-              ) : null}
+          {/* Mobile select */}
+          <div className="md:hidden">
+            <label className="text-xs text-muted2">Escolher unidade</label>
+            <div className="mt-2 rounded-2xl border border-soft bg-bg2 p-2">
+              <select
+                className="w-full bg-bg2 text-fg outline-none px-3 py-3 rounded-xl border border-soft"
+                defaultValue={active}
+                onChange={(e) => {
+                  // client-side navigation sem virar client component:
+                  // fallback simples via location (ok para select)
+                  window.location.href = `/agenda?unidade=${e.target.value}`;
+                }}
+              >
+                <option value="sede">Sede — Figueira da Foz</option>
+                <option value="leiria">Congregação — Leiria</option>
+                <option value="barcelos">Congregação — Barcelos</option>
+              </select>
             </div>
-          ))}
+          </div>
         </div>
-      </section>
 
-      {/* CONGREGAÇÕES (placeholders) */}
-      <section className="grid gap-4 md:grid-cols-2">
-        <PlaceholderAgendaCard
-          title="Congregação — Leiria"
-          desc="A agenda semanal será publicada assim que estiver definida."
-        />
-        <PlaceholderAgendaCard
-          title="Congregação — Barcelos"
-          desc="A agenda semanal será publicada assim que estiver definida."
-        />
+        {/* CONTENT */}
+        {active === "sede" ? (
+          <SedeAgenda />
+        ) : (
+          <PlaceholderUnidade
+            title={`${activeMeta.label} — ${activeMeta.subtitle}`}
+            desc="A agenda semanal será publicada assim que estiver definida."
+          />
+        )}
       </section>
 
       {/* CTA FINAL */}
@@ -216,6 +207,111 @@ export default function AgendaPage() {
         </div>
       </section>
     </main>
+  );
+}
+
+function SedeAgenda() {
+  return (
+    <section className="space-y-6">
+      {/* Tabela (desktop) */}
+      <div className="hidden md:block overflow-hidden rounded-2xl border border-soft bg-bg2">
+        <table className="w-full text-sm">
+          <thead className="bg-bg">
+            <tr>
+              <th className="w-40 px-6 py-4 text-left text-muted whitespace-nowrap">Dia</th>
+              <th className="px-6 py-4 text-left text-muted">Horário</th>
+              <th className="px-6 py-4 text-left text-muted">Encontro</th>
+              <th className="px-10 py-4 text-left text-muted">Descrição</th>
+            </tr>
+          </thead>
+          <tbody>
+            {SEDE_SEMANAL.map((e, idx) => (
+              <tr key={`${e.dia}-${idx}`} className="border-t border-soft">
+                <td className="px-6 py-5 font-medium text-fg whitespace-nowrap">{e.dia}</td>
+                <td className="px-6 py-5 text-fg">{e.hora}</td>
+                <td className="px-6 py-5 text-fg">
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="h-2 w-2 rounded-full"
+                      style={{ backgroundColor: "var(--g-figueira)" }}
+                    />
+                    <span className="font-semibold">{e.titulo}</span>
+                    {e.badge && (
+                      <span className="ml-2 rounded-full border border-soft bg-bg px-2 py-0.5 text-xs text-muted">
+                        {e.badge}
+                      </span>
+                    )}
+                  </div>
+                </td>
+                <td className="px-10 py-5 text-muted leading-relaxed">{e.descricao}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Cards (mobile) */}
+      <div className="grid gap-4 md:hidden">
+        {SEDE_SEMANAL.map((e, idx) => (
+          <div key={`${e.dia}-${idx}`} className="rounded-2xl border border-soft bg-bg2 p-5">
+            <div className="flex items-start justify-between gap-3">
+              <div className="space-y-1">
+                <div className="text-xs text-muted2">{e.dia}</div>
+
+                <div className="text-base font-semibold text-fg flex items-center gap-2">
+                  <span
+                    className="h-2 w-2 rounded-full"
+                    style={{ backgroundColor: "var(--g-figueira)" }}
+                  />
+                  {e.titulo}
+                </div>
+
+                <div className="text-sm text-fg">{e.hora}</div>
+              </div>
+
+              {e.badge ? (
+                <span className="shrink-0 rounded-full border border-soft bg-bg px-2 py-0.5 text-xs text-muted">
+                  {e.badge}
+                </span>
+              ) : null}
+            </div>
+
+            <p className="mt-3 text-sm text-muted leading-relaxed">{e.descricao}</p>
+
+            {e.titulo === "Reuniões de Grupos Específicos" ? (
+              <div className="mt-3 rounded-xl border border-soft bg-bg p-3 text-sm text-muted">
+                <div className="font-semibold text-fg mb-1">Grupos:</div>
+                <ul className="space-y-1">
+                  <li>• Homens</li>
+                  <li>• Mulheres</li>
+                  <li>• Jovens</li>
+                </ul>
+              </div>
+            ) : null}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function PlaceholderUnidade({ title, desc }: { title: string; desc: string }) {
+  return (
+    <section className="grid gap-4 md:grid-cols-2">
+      <PlaceholderAgendaCard title={title} desc={desc} />
+      <div className="rounded-2xl border border-soft bg-bg2 p-6">
+        <div className="text-sm font-semibold text-fg">Quer ser avisado?</div>
+        <p className="mt-2 text-sm text-muted">
+          Assim que a agenda estiver definida, publicamos aqui. Se precisar de orientação,
+          fale connosco.
+        </p>
+        <div className="pt-3">
+          <Link href="/contato" className="btn btn-primary">
+            Contacto
+          </Link>
+        </div>
+      </div>
+    </section>
   );
 }
 
