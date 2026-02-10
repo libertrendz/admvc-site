@@ -51,25 +51,25 @@ const SEDE_SEMANAL: Evento[] = [
   }
 ];
 
-const UNIDADES: { key: UnidadeKey; label: string; subtitle: string }[] = [
-  { key: "sede", label: "Sede", subtitle: "Figueira da Foz" },
-  { key: "leiria", label: "Congregação", subtitle: "Leiria" },
-  { key: "barcelos", label: "Congregação", subtitle: "Barcelos" }
+const UNIDADES: { key: UnidadeKey; label: string; sub: string }[] = [
+  { key: "sede", label: "Sede", sub: "Figueira da Foz" },
+  { key: "leiria", label: "Congregação", sub: "Leiria" },
+  { key: "barcelos", label: "Congregação", sub: "Barcelos" }
 ];
+
+function normalizeUnidade(v?: string): UnidadeKey {
+  const x = (v || "").toLowerCase();
+  if (x === "leiria") return "leiria";
+  if (x === "barcelos") return "barcelos";
+  return "sede";
+}
 
 export default function AgendaPage({
   searchParams
 }: {
   searchParams?: { unidade?: string };
 }) {
-  const unidadeParam = (searchParams?.unidade || "").toLowerCase();
-  const active: UnidadeKey =
-    unidadeParam === "leiria"
-      ? "leiria"
-      : unidadeParam === "barcelos"
-      ? "barcelos"
-      : "sede";
-
+  const active = normalizeUnidade(searchParams?.unidade);
   const activeMeta = UNIDADES.find((u) => u.key === active) || UNIDADES[0];
 
   return (
@@ -113,21 +113,21 @@ export default function AgendaPage({
         </div>
       </section>
 
-      {/* SELECTOR (tabs desktop + select mobile) */}
-      <section className="space-y-4">
-        <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+      {/* SELETOR + CONTEÚDO */}
+      <section className="space-y-6">
+        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
             <h2 className="text-xl md:text-2xl font-semibold text-figueira">
-              {activeMeta.label} — {activeMeta.subtitle}
+              {activeMeta.label} — {activeMeta.sub}
             </h2>
             <p className="text-muted">
               {active === "sede"
                 ? "Agenda semanal da sede da ADMVC."
-                : "Agenda semanal será publicada assim que estiver definida."}
+                : "A agenda semanal será publicada assim que estiver definida."}
             </p>
           </div>
 
-          {/* Desktop tabs */}
+          {/* Tabs desktop */}
           <div className="hidden md:flex items-center gap-2 rounded-2xl border border-soft bg-bg2 p-2">
             {UNIDADES.map((u) => {
               const isActive = u.key === active;
@@ -149,42 +149,65 @@ export default function AgendaPage({
                         backgroundColor: isActive ? "var(--g-figueira)" : "var(--g-soft)"
                       }}
                     />
-                    {u.subtitle}
+                    {u.sub}
                   </span>
                 </Link>
               );
             })}
           </div>
-
-          {/* Mobile select */}
-          <div className="md:hidden">
-            <label className="text-xs text-muted2">Escolher unidade</label>
-            <div className="mt-2 rounded-2xl border border-soft bg-bg2 p-2">
-              <select
-                className="w-full bg-bg2 text-fg outline-none px-3 py-3 rounded-xl border border-soft"
-                defaultValue={active}
-                onChange={(e) => {
-                  // client-side navigation sem virar client component:
-                  // fallback simples via location (ok para select)
-                  window.location.href = `/agenda?unidade=${e.target.value}`;
-                }}
-              >
-                <option value="sede">Sede — Figueira da Foz</option>
-                <option value="leiria">Congregação — Leiria</option>
-                <option value="barcelos">Congregação — Barcelos</option>
-              </select>
-            </div>
-          </div>
         </div>
 
-        {/* CONTENT */}
+        {/* Mobile selector (links, server-safe; sem window) */}
+        <div className="md:hidden grid gap-2">
+          {UNIDADES.map((u) => {
+            const isActive = u.key === active;
+            return (
+              <Link
+                key={u.key}
+                href={`/agenda?unidade=${u.key}`}
+                className={`rounded-2xl border px-4 py-3 ${
+                  isActive
+                    ? "border-soft bg-bg text-fg"
+                    : "border-soft bg-bg2 text-muted"
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="font-semibold">{u.sub}</div>
+                  <span
+                    className="h-2.5 w-2.5 rounded-full"
+                    style={{
+                      backgroundColor: isActive ? "var(--g-figueira)" : "var(--g-soft)"
+                    }}
+                  />
+                </div>
+                <div className="text-xs text-muted2">{u.label}</div>
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* Conteúdo por unidade */}
         {active === "sede" ? (
           <SedeAgenda />
         ) : (
-          <PlaceholderUnidade
-            title={`${activeMeta.label} — ${activeMeta.subtitle}`}
-            desc="A agenda semanal será publicada assim que estiver definida."
-          />
+          <section className="grid gap-4 md:grid-cols-2">
+            <PlaceholderAgendaCard
+              title={`${activeMeta.label} — ${activeMeta.sub}`}
+              desc="A agenda semanal será publicada assim que estiver definida."
+            />
+            <div className="rounded-2xl border border-soft bg-bg2 p-6">
+              <div className="text-sm font-semibold text-fg">Precisa de orientação?</div>
+              <p className="mt-2 text-sm text-muted">
+                Se quiser, entre em contacto e ajudamos a orientar o melhor dia, horário e
+                congregação para a sua visita.
+              </p>
+              <div className="pt-4">
+                <Link href="/contato" className="btn btn-primary">
+                  Contacto
+                </Link>
+              </div>
+            </div>
+          </section>
         )}
       </section>
 
@@ -290,26 +313,6 @@ function SedeAgenda() {
             ) : null}
           </div>
         ))}
-      </div>
-    </section>
-  );
-}
-
-function PlaceholderUnidade({ title, desc }: { title: string; desc: string }) {
-  return (
-    <section className="grid gap-4 md:grid-cols-2">
-      <PlaceholderAgendaCard title={title} desc={desc} />
-      <div className="rounded-2xl border border-soft bg-bg2 p-6">
-        <div className="text-sm font-semibold text-fg">Quer ser avisado?</div>
-        <p className="mt-2 text-sm text-muted">
-          Assim que a agenda estiver definida, publicamos aqui. Se precisar de orientação,
-          fale connosco.
-        </p>
-        <div className="pt-3">
-          <Link href="/contato" className="btn btn-primary">
-            Contacto
-          </Link>
-        </div>
       </div>
     </section>
   );
