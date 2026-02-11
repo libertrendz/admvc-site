@@ -50,8 +50,10 @@ export default function HomePage() {
             </h1>
 
             <p className="max-w-2xl text-base md:text-lg text-white/90 drop-shadow-[0_1px_8px_rgba(0,0,0,0.8)]">
-              Um lugar de acolhimento, comunhão e crescimento espiritual, onde vivemos o amor
-              de Cristo e caminhamos juntos como corpo.
+              Na ADMVC, você encontra uma família apaixonada por Jesus e por pessoas.
+              Acreditamos que todo filho de Deus pode ser cuidado e capacitado — e, após esse
+              processo, torna-se apto a gerar transformação e levar as Boas Novas a todo o
+              mundo, como a Bíblia nos ordena.
             </p>
 
             <div className="flex flex-wrap gap-3 pt-2">
@@ -84,18 +86,49 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* QUEM SOMOS */}
+      {/* ESSÊNCIA (novo) */}
+      <section className="space-y-6">
+        <div className="space-y-2">
+          <h2 className="text-xl md:text-2xl font-semibold text-figueira">
+            Jesus é o centro. Pessoas são a missão.
+          </h2>
+          <p className="text-muted max-w-3xl">
+            A nossa fé é cristocêntrica e a nossa prática é servir e cuidar de pessoas — com
+            esperança, amor e compromisso com a Palavra de Deus.
+          </p>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-3">
+          <FeatureCard
+            title="Cristo é o Centro"
+            desc='“Jesus Cristo é o centro de tudo o que fazemos.” (Cl 1:17-18)'
+          />
+          <FeatureCard
+            title="Serviço com Propósito"
+            desc='“Servindo a Deus ao servir pessoas.” (Mc 10:45 / Gl 5:13)'
+          />
+          <FeatureCard
+            title="Esperança e Novo Começo"
+            desc='“Há esperança e um novo começo em Cristo.” (Jr 29:11)'
+          />
+        </div>
+      </section>
+
+      {/* QUEM SOMOS (ajustado) */}
       <section className="grid gap-8 md:grid-cols-12 md:items-start">
         <div className="md:col-span-5 space-y-3">
           <h2 className="text-xl md:text-2xl font-semibold text-figueira">Quem somos</h2>
+
           <p className="text-muted">
             A Assembleia de Deus – Ministério Visão de Conquista é uma igreja cristã comprometida
             com a Palavra de Deus, com a família e com a transformação de vidas por meio do
             Evangelho de Jesus Cristo.
           </p>
+
           <p className="text-muted">
-            Vivemos a fé de forma comunitária, acreditando que o crescimento espiritual acontece
-            quando caminhamos juntos em amor, unidade e serviço.
+            Acreditamos que todo filho de Deus pode ser cuidado e capacitado. Depois de passar
+            por esse processo, torna-se apto a gerar transformação e levar as Boas Novas a todo o
+            mundo, como a Bíblia nos ordena.
           </p>
 
           <div className="pt-2">
@@ -128,9 +161,24 @@ export default function HomePage() {
         </div>
 
         <div className="grid gap-4 md:grid-cols-3">
-          <PlaceCard badge="Sede" title="Figueira da Foz" desc="Cultos e encontros semanais" accent="figueira" />
-          <PlaceCard badge="Congregação" title="Leiria" desc="Uma comunidade em crescimento" accent="soft" />
-          <PlaceCard badge="Congregação" title="Barcelos" desc="Caminhando juntos em fé" accent="deep" />
+          <PlaceCard
+            badge="Sede"
+            title="Figueira da Foz"
+            desc="Cultos e encontros semanais"
+            accent="figueira"
+          />
+          <PlaceCard
+            badge="Congregação"
+            title="Leiria"
+            desc="Uma comunidade em crescimento"
+            accent="soft"
+          />
+          <PlaceCard
+            badge="Congregação"
+            title="Barcelos"
+            desc="Caminhando juntos em fé"
+            accent="deep"
+          />
         </div>
       </section>
 
@@ -139,9 +187,7 @@ export default function HomePage() {
         <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
           <div>
             <h2 className="text-xl md:text-2xl font-semibold text-figueira">Vida na Igreja</h2>
-            <p className="text-muted">
-              Ministérios que fortalecem a fé, a comunhão e o serviço.
-            </p>
+            <p className="text-muted">Ministérios que fortalecem a fé, a comunhão e o serviço.</p>
           </div>
           <Link href="/ministerios" className="text-figueira underline underline-offset-4">
             Conheça nossos ministérios
@@ -158,11 +204,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ÂNCORA BÍBLICA */}
+      {/* ÂNCORA BÍBLICA (ajustada) */}
       <section className="rounded-2xl border border-soft bg-bg2 p-6">
         <div className="border-l-4 pl-4" style={{ borderColor: "var(--g-figueira)" }}>
-          <p className="text-lg md:text-xl italic text-fg">“Onde não há visão, o povo perece.”</p>
-          <div className="pt-1 text-sm text-muted2">Provérbios 29:18a</div>
+          <p className="text-lg md:text-xl italic text-fg">
+            “Jesus Cristo é o centro de tudo o que fazemos.”
+          </p>
+          <div className="pt-1 text-sm text-muted2">Colossenses 1:17-18</div>
         </div>
       </section>
 
@@ -293,7 +341,12 @@ function Callout({
         <p className="text-sm text-muted">{desc}</p>
 
         {external ? (
-          <a href={ctaHref} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
+          <a
+            href={ctaHref}
+            className="btn btn-primary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {ctaLabel}
           </a>
         ) : (
