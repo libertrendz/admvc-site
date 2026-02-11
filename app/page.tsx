@@ -101,15 +101,18 @@ export default function HomePage() {
         <div className="grid gap-4 md:grid-cols-3">
           <FeatureCard
             title="Cristo é o Centro"
-            desc='“Jesus Cristo é o centro de tudo o que fazemos.” (Cl 1:17-18)'
+            text="Jesus Cristo é o centro de tudo o que fazemos."
+            reference="Cl 1:17-18"
           />
           <FeatureCard
             title="Serviço com Propósito"
-            desc='“Servindo a Deus ao servir pessoas.” (Mc 10:45 / Gl 5:13)'
+            text="Servindo a Deus ao servir pessoas."
+            reference="Mc 10:45 / Gl 5:13"
           />
           <FeatureCard
             title="Esperança e Novo Começo"
-            desc='“Há esperança e um novo começo em Cristo.” (Jr 29:11)'
+            text="Há esperança e um novo começo em Cristo."
+            reference="Jr 29:11"
           />
         </div>
       </section>
@@ -238,7 +241,17 @@ export default function HomePage() {
   );
 }
 
-function FeatureCard({ title, desc }: { title: string; desc: string }) {
+function FeatureCard({
+  title,
+  desc,
+  text,
+  reference
+}: {
+  title: string;
+  desc?: string;
+  text?: string;
+  reference?: string;
+}) {
   return (
     <div className="rounded-2xl border border-soft bg-bg2 p-5">
       <div className="flex items-center gap-2">
@@ -248,7 +261,17 @@ function FeatureCard({ title, desc }: { title: string; desc: string }) {
         />
         <h3 className="font-semibold text-fg">{title}</h3>
       </div>
-      <p className="mt-2 text-sm text-muted">{desc}</p>
+
+      {/* modo antigo (resto do site) */}
+      {desc ? <p className="mt-2 text-sm text-muted">{desc}</p> : null}
+
+      {/* modo ESSÊNCIA (novo) */}
+      {text ? (
+        <>
+          <p className="mt-3 text-sm text-fg leading-relaxed">“{text}”</p>
+          <div className="mt-2 text-xs font-semibold text-figueira">{reference}</div>
+        </>
+      ) : null}
     </div>
   );
 }
