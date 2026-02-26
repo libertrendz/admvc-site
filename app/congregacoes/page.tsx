@@ -1,4 +1,6 @@
 // app/congregacoes/page.tsx
+// (Pode atualizar contactos, responsáveis e horários depois — esta página já está preparada.)
+
 import Link from "next/link";
 
 type Congregacao = {
@@ -118,7 +120,6 @@ export default function CongregacoesPage() {
           </div>
 
           <div className="pt-2 text-xs text-muted2">
-            (Pode atualizar contactos, responsáveis e horários depois — esta página já está preparada.)
           </div>
         </div>
       </section>
