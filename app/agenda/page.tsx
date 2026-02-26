@@ -107,8 +107,7 @@ export default function AgendaPage({
           </div>
 
           <div className="pt-2 text-xs text-muted2">
-            (Selecione a unidade para visualizar a agenda. As congregações serão atualizadas assim
-            que estiverem definidas.)
+            Selecione a unidade ADMVC para visualizar a agenda
           </div>
         </div>
       </section>
