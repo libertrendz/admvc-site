@@ -37,7 +37,7 @@ export default function ContatoPage() {
           </div>
 
           <div className="pt-2 text-xs text-muted2">
-            (Responderemos assim que possível. Deus abençoe.)
+            Responderemos assim que possível. Deus abençoe!
           </div>
         </div>
       </section>
