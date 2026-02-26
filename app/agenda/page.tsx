@@ -1,4 +1,5 @@
 // app/agenda/page.tsx
+// Selecione a unidade ADMVC para visualizar a agenda
 import Link from "next/link";
 
 type Evento = {
@@ -107,7 +108,7 @@ export default function AgendaPage({
           </div>
 
           <div className="pt-2 text-xs text-muted2">
-            Selecione a unidade ADMVC para visualizar a agenda
+         
           </div>
         </div>
       </section>
