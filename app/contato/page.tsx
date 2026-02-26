@@ -48,11 +48,7 @@ export default function ContatoPage() {
         <div className="rounded-2xl border border-soft bg-bg2 p-6">
           <h2 className="text-xl font-semibold text-figueira mb-4">Envie uma mensagem</h2>
 
-          <form
-            action="https://api.web3forms.com/submit"
-            method="POST"
-            className="space-y-4"
-          >
+          <form action="https://api.web3forms.com/submit" method="POST" className="space-y-4">
             {/* Web3Forms */}
             <input
               type="hidden"
@@ -61,7 +57,12 @@ export default function ContatoPage() {
             />
             <input type="hidden" name="subject" value="Novo contacto via site ADMVC" />
             <input type="hidden" name="from_name" value="Site ADMVC" />
-            <input type="hidden" name="redirect" value="https://www.igrejaadmvc.org/obrigado" />
+
+            {/* ✅ REMOVI O redirect PARA NÃO DAR 404
+                Se você quiser usar redirect depois, crie /obrigado (arquivo abaixo)
+                e reative esta linha:
+                <input type="hidden" name="redirect" value="https://www.igrejaadmvc.org/obrigado" />
+            */}
 
             {/* Honeypot anti-spam (invisível) */}
             <input
@@ -120,7 +121,7 @@ export default function ContatoPage() {
         <div className="space-y-6">
           <div className="rounded-2xl border border-soft bg-bg2 p-6">
             <h3 className="text-lg font-semibold text-fg mb-2">E-mail</h3>
-            <p className="text-muted">admvc@gmail.com</p>
+            <p className="text-muted">admvcff@gmail.com</p>
           </div>
 
           <div className="rounded-2xl border border-soft bg-bg2 p-6">
