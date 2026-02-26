@@ -110,8 +110,6 @@ export default function MinisteriosPage() {
             </Link>
           </div>
 
-          <div className="pt-2 text-xs text-muted2">
-            (Os horários e responsáveis podem ser preenchidos depois — estrutura já está pronta.)
           </div>
         </div>
       </section>
