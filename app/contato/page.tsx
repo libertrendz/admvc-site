@@ -79,7 +79,7 @@ export default function ContatoPage() {
             <h3 className="text-lg font-semibold text-fg mb-2">
               E-mail
             </h3>
-            <p className="text-muted">admvc@gmail.com</p>
+            <p className="text-muted">admvcff@gmail.com</p>
           </div>
 
           <div className="rounded-2xl border border-soft bg-bg2 p-6">
